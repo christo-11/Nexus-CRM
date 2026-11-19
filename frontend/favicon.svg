@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gold-metallic" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5D075" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#8A6412" />
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="128" fill="#141416" />
+  <rect x="4" y="4" width="504" height="504" rx="124" fill="none" stroke="url(#gold-metallic)" stroke-width="4" stroke-opacity="0.2" />
+
+  <!-- Connected Polygon N -->
+  <g fill="none" stroke="url(#gold-metallic)" stroke-width="42" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 160 368 L 160 144 L 352 368 L 352 144" />
+  </g>
+
+  <!-- Connection Nodes -->
+  <circle cx="160" cy="144" r="28" fill="#FFFFFF" />
+  <circle cx="352" cy="368" r="32" fill="url(#gold-metallic)" />
+</svg>

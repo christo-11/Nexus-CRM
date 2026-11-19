@@ -1,0 +1,42 @@
+services:
+  api:
+    build:
+      context: ./flask-backend
+    restart: unless-stopped
+    env_file:
+      - ./flask-backend/.env
+    environment:
+      UPLOAD_FOLDER: /app/instance/uploads
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:8080}
+      TRUSTED_PROXY_COUNT: ${TRUSTED_PROXY_COUNT:-1}
+    volumes:
+      - smart_crm_uploads:/app/instance/uploads
+    command: >
+      sh -c "flask --app app:create_app db upgrade &&
+             flask --app app:create_app seed &&
+             gunicorn --worker-class gthread --workers 1 --threads 100 --timeout 240 --bind 0.0.0.0:8000 'app:create_app()'"
+    expose:
+      - "8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: /api/v1
+    restart: unless-stopped
+    expose:
+      - "80"
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - api
+      - frontend
+volumes:
+  smart_crm_uploads:
